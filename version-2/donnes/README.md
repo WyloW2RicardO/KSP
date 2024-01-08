@@ -1,6 +1,6 @@
 ### Document
-- les reacteur sont des moteurs à réaction qui utilise de l'essence et oxygène liquide
-- les propulseur sont des module constituer de moteur a réaction et de reserve solide d'essence et oxygène
+- les reacteurs sont des moteurs à réaction qui utilise de l'essence et oxygène liquide
+- les propulseurs sont des module constituer de moteur a réaction et de reserve solide d'essence et oxygène
 ### Variable
 Definition des données.
 |PARAMETRE|DEFINISION|
