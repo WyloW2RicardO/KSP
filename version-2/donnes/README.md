@@ -1,6 +1,8 @@
 ### Document
-- les reacteurs sont des moteurs à réaction qui utilise de l'essence et oxygène liquide
-- les propulseurs sont des module constituer de moteur a réaction et de reserve solide d'essence et oxygène
+- Les decoupleurs permet de detacher les parties les une en dessou des autres de la fusé (asperge)
+- Les propulseurs sont des module constituer de moteur a réaction et de reserve solide d'essence et oxygène
+- Les reacteurs sont des moteurs à réaction qui utilise de l'essence et oxygène liquide
+- Les séparateurs permet de detacher les partie lateral de la fusé
 ### Variable
 Definition des données.
 |PARAMETRE|DEFINISION|
