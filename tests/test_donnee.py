@@ -1,22 +1,22 @@
 import unittest
 import sys
 sys.path.insert(0,'E:\\Program\\KSP')
-from METIERS.Donnee import lire_donnee  # noqa: E402
+from Metiers.Donnee import LIRE_DONNEE  # noqa: E402
 
-class test_kerbin(unittest.TestCase):
+class TEST_KERBIN(unittest.TestCase):
     def setUp(self):
-        self.krbn=lire_donnee('planetes','kerbin')
+        self.krbn=LIRE_DONNEE('planetes','kerbin')
 
-    def test_nom(self):
+    def TEST_NOM(self):
         self.assertEqual(self.krbn.nom, 'kerbin')
     
-    def test_est_dans(self):
+    def TEST_EST_DANS(self):
         self.assertTrue(self.krbn.est_dans)
 
-    def test_atm(self):
+    def TEST_ATM(self):
         self.assertEqual(self.krbn.atm, 70000)
 
-    def test_cout(self): # si c'est une information inexitante
+    def TEST_COUT(self): # si c'est une information inexitante
         self.assertIsNone(self.krbn.cout)
 
 if __name__ == '__main__':
