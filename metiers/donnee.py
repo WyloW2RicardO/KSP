@@ -8,7 +8,7 @@ def lire(data,ligne,colone) :
 
 class lire_donnee :
     def __init__(self, datas, noms) :
-        url='E:/Program/KSP/donnees/' + datas + '.csv'
+        url='E:/Program/KSP/DONNEES/' + datas + '.csv'
         try :
             pd.read_csv(url)
         except FileNotFoundError:
