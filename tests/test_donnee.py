@@ -1,23 +1,29 @@
-import unittest
+import pytest
 import sys
-sys.path.insert(0,'E:\\Program\\KSP')
-from Metiers.Donnee import LIRE_DONNEE  # noqa: E402
 
-class TEST_KERBIN(unittest.TestCase):
-    def setUp(self):
-        self.krbn=LIRE_DONNEE('planetes','kerbin')
+sys.path.insert(0, "E:\\Program\\KSP")
+from Metiers import donnee  # noqa: E402
 
-    def TEST_NOM(self):
-        self.assertEqual(self.krbn.nom, 'kerbin')
-    
-    def TEST_EST_DANS(self):
-        self.assertTrue(self.krbn.est_dans)
 
-    def TEST_ATM(self):
-        self.assertEqual(self.krbn.atm, 70000)
+#class Test_KERBIN:
+    #def setUp(self):
+krbn = donnee.LIRES("planetes", "kerbin")
+krbn1 = donnee.LIRES("planetes", "kerbi")
 
-    def TEST_COUT(self): # si c'est une information inexitante
-        self.assertIsNone(self.krbn.cout)
+def test_NOM():
+    assert krbn.nom == "kerbin"
+    assert krbn1.nom == "kerbi"
 
-if __name__ == '__main__':
-    unittest.main(verbosity=2)
+def test_EST_DANS():
+    assert krbn.est_dans == True  # noqa: E712
+    assert krbn1.est_dans == False  # noqa: E712
+
+def test_ATM():
+    assert krbn.atm == 70000
+
+def test_COUT():  # si c'est une information inexitante
+    assert krbn.cout is None 
+
+
+if __name__ == "__main__":
+    pytest.main(["-v", "Tests\\test_donnee.py"])
