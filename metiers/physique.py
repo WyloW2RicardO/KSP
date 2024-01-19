@@ -1,57 +1,51 @@
-from math import exp as EXP, log as LOG, sqrt as SQRT
-from Donnees.conversion import PA_ATM
+from math import exp as EXP, pi, pow as POW, sqrt as SQRT
 
 G = 6.674e-11  # Constante gravitationnelle m3⋅kg−1⋅s−2
 R = 8.31446261815324  # Constante de gaz kg⋅m2.s−2⋅K−1⋅mol−1
 
 
-def VITESSE_ECHAPE(planete, altitude):
-    "La vites nécessaire pour échapper au puits de gravité d'une planète donnée."
-    return SQRT(2 * G * planete.mss / (planete.dmtr / 2 + altitude))
+def GEOSTATIONAIR(astre):
+    "renvois l'altitude geostationaire"
+    return POW(G * astre.mss * astre.day**2 / pi / 4)
 
 
-def GRAVITE(planete, altitude):
-    return G * planete.mss / (planete.dmtr / 2 + altitude) ** 2
+def VITESSE_ORBITAL(astre, radiale):
+    "Pour le moment on suposera que tout orbite est parfaitement circulaire"
+    return SQRT(G * astre.mss / radiale)
 
 
-def HAUTEUR_ECHALLE(planete):
+def VITESSE_LIBERATION(astre):
+    "La vites nécessaire pour échapper au puits de gravité de l'astre donnée."
+    return SQRT(2) * VITESSE_ORBITAL(astre, astre.dmtr / 2)
+
+
+def GRAVITE(astre, altitude):
+    return G * astre.mss / altitude**2
+
+
+def HAUTEUR_ECHALLE(astre):
     "l'augmentation d'altitude pour laquelle la pression aslosphérique diminue d'un facteur expodentiel"
-    return R * planete.klvn / planete.mol / GRAVITE(planete, 0)
+    return R * astre.klvn / astre.mol / GRAVITE(astre, astre.dmtr / 2)
 
 
-def PRESSION(planete, altitude):
+def PRESSION(astre, altitude):
     "Pression atmospherique (Pa)"
-    if altitude > planete.atm:
+    if altitude > astre.atm:
         "on sort de l'atmosphere"
         return 0
     else:
-        return planete.prssn * EXP(-altitude / HAUTEUR_ECHALLE())
+        return astre.prssn * EXP(-altitude / HAUTEUR_ECHALLE(astre))
 
 
-def DENSITER(planete, altitude):
-    return PRESSION(altitude) / R / planete.klvn
+def DENSITER(astre, altitude):
+    return PRESSION(astre, altitude) / R / astre.klvn
 
 
-def IMPULSION(fuse, altitude):
-    "L'impulsion spécifique définit l'efficacité d'un moteur."
-    return fuse.nmbr * fuse.mtr.isp_vac + PA_ATM(PRESSION(altitude)) * (
-        fuse.mtr.isp_asl - fuse.mtr.isp_vac
+def TRANSFERT(astre, radiale0, radiale1):
+    "revois la vitesse pourle chegement d'orbite et le temps d'execution."
+    r = radiale0 + radiale1
+    return VITESSE_ORBITAL(astre, radiale0) * (
+        SQRT(2 * radiale1 / r) - 1
+    ) + VITESSE_ORBITAL(astre, radiale1) * (1 - SQRT(2 * radiale0 / r)), pi * SQRT(
+        r / astre.mss / G / 8
     )
-
-
-def VITESSE_DELTA(planete, fuse):
-    return IMPULSION(fuse, 0) * GRAVITE(planete, 0) * LOG(fuse.kg_ttl / fuse.kg_vide)
-
-
-def POUSSE(planete, fuse, altitude):
-    "la poussée est la force exercée par l'accélération de gaz"
-    return IMPULSION(fuse, altitude) * GRAVITE(planete, 0) * fuse.kg_d
-
-
-def POUSSEE_POIDS(planete, fuse, altitude):
-    "il définit la puissance des moteurs d'un engin par rapport à son propre poids."
-    return fuse.nmbr * POUSSE(planete, fuse) / (fuse.mss * GRAVITE(planete, altitude))
-
-
-def A(planete, fuse, altitude):
-    return GRAVITE(altitude) * (POUSSEE_POIDS(planete, fuse, altitude) - 1)
